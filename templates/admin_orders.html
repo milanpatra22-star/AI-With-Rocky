@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Orders</title>
+
+</head>
+
+<body>
+
+    <h1>
+        Admin Order Panel 🏢📦
+    </h1>
+
+
+    <a href="/admin/dashboard">
+        Dashboard 📊
+    </a>
+
+    <a href="/admin/products">
+        Products 🛍️
+    </a>
+
+    <a href="/admin/orders">
+        Orders 📦
+    </a>
+
+    <a href="/admin/logout">
+        Logout 🔓
+    </a>
+
+
+    <hr>
+
+
+    {% if orders %}
+
+        <h2>
+            All Orders
+        </h2>
+
+
+        <table
+            border="1"
+            cellpadding="10"
+        >
+
+            <tr>
+
+                <th>
+                    Order ID
+                </th>
+
+                <th>
+                    Name
+                </th>
+
+                <th>
+                    Email
+                </th>
+
+                <th>
+                    Address
+                </th>
+
+                <th>
+                    Total
+                </th>
+
+                <th>
+                    Status
+                </th>
+
+                <th>
+                    Update
+                </th>
+
+            </tr>
+
+
+            {% for order in orders %}
+
+                <tr>
+
+                    <td>
+                        #{{ order[0] }}
+                    </td>
+
+                    <td>
+                        {{ order[1] }}
+                    </td>
+
+                    <td>
+                        {{ order[2] }}
+                    </td>
+
+                    <td>
+                        {{ order[3] }}
+                    </td>
+
+                    <td>
+                        ₹{{ order[4] }}
+                    </td>
+
+                    <td>
+
+                        {% if order[5] == "Pending" %}
+
+                            🟡 Pending
+
+                        {% elif order[5] == "Confirmed" %}
+
+                            🔵 Confirmed
+
+                        {% elif order[5] == "Shipped" %}
+
+                            🚚 Shipped
+
+                        {% elif order[5] == "Delivered" %}
+
+                            ✅ Delivered
+
+                        {% elif order[5] == "Cancelled" %}
+
+                            ❌ Cancelled
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        <form
+                            method="POST"
+                            action="/admin/orders/status/{{ order[0] }}"
+                        >
+
+                            <select name="status">
+
+                                <option
+                                    value="Pending"
+                                    {% if order[5] == "Pending" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Pending
+                                </option>
+
+
+                                <option
+                                    value="Confirmed"
+                                    {% if order[5] == "Confirmed" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Confirmed
+                                </option>
+
+
+                                <option
+                                    value="Shipped"
+                                    {% if order[5] == "Shipped" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Shipped
+                                </option>
+
+
+                                <option
+                                    value="Delivered"
+                                    {% if order[5] == "Delivered" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Delivered
+                                </option>
+
+
+                                <option
+                                    value="Cancelled"
+                                    {% if order[5] == "Cancelled" %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    Cancelled
+                                </option>
+
+                            </select>
+
+
+                            <button type="submit">
+
+                                Update 🔄
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+    {% else %}
+
+        <p>
+            No orders found.
+        </p>
+
+    {% endif %}
+
+
+</body>
+
+</html>

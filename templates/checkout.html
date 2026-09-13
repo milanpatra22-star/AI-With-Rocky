@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Checkout</title>
+
+</head>
+
+<body>
+
+    <h1>
+        Checkout 📦
+    </h1>
+
+
+    <p>
+
+        Logged in as:
+
+        <strong>
+            {{ session["customer_name"] }}
+        </strong>
+
+    </p>
+
+
+    <p>
+
+        Email:
+
+        <strong>
+            {{ session["customer_email"] }}
+        </strong>
+
+    </p>
+
+
+    <h2>
+        Your Order
+    </h2>
+
+
+    {% for product in cart_products %}
+
+        <p>
+
+            {{ product.name }}
+
+            × {{ product.quantity }}
+
+            = ₹{{ product.subtotal }}
+
+        </p>
+
+    {% endfor %}
+
+
+    <h2>
+        Total:
+        ₹{{ total }}
+    </h2>
+
+
+    <hr>
+
+
+    <h2>
+        Delivery Information
+    </h2>
+
+
+    <form method="POST">
+
+        <label>
+            Delivery Address:
+        </label>
+
+        <br>
+
+        <textarea
+            name="address"
+            rows="5"
+            required
+        ></textarea>
+
+        <br><br>
+
+
+        <button type="submit">
+
+            Place Order 🚀
+
+        </button>
+
+    </form>
+
+
+    <br>
+
+
+    <a href="/cart">
+        ← Back to Cart
+    </a>
+
+
+</body>
+
+</html>

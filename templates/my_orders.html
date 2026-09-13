@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Orders</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            AI With Rocky 🚀
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products 🛍️
+            </a>
+
+            <a href="/cart">
+                Cart 🛒
+            </a>
+
+            <a href="/logout">
+                Logout 🔓
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+
+        <h1>
+            My Orders 📦
+        </h1>
+
+
+        <p>
+
+            Welcome,
+
+            <strong>
+                {{ session["customer_name"] }}
+            </strong>
+
+            👋
+
+        </p>
+
+
+        {% if orders %}
+
+
+            {% for order in orders %}
+
+
+                <div class="order-card">
+
+
+                    <h2>
+                        Order #{{ order[0] }}
+                    </h2>
+
+
+                    <p>
+                        Total:
+                        <strong>
+                            ₹{{ order[4] }}
+                        </strong>
+                    </p>
+
+
+                    <p>
+                        Address:
+                        {{ order[3] }}
+                    </p>
+
+
+                    <p>
+
+                        Status:
+
+                        {% if order[5] == "Pending" %}
+
+                            <span class="status status-pending">
+                                🟡 Pending
+                            </span>
+
+                        {% elif order[5] == "Confirmed" %}
+
+                            <span class="status status-confirmed">
+                                🔵 Confirmed
+                            </span>
+
+                        {% elif order[5] == "Shipped" %}
+
+                            <span class="status status-shipped">
+                                🚚 Shipped
+                            </span>
+
+                        {% elif order[5] == "Delivered" %}
+
+                            <span class="status status-delivered">
+                                ✅ Delivered
+                            </span>
+
+                        {% elif order[5] == "Cancelled" %}
+
+                            <span class="status status-cancelled">
+                                ❌ Cancelled
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <div class="hero">
+
+                <h2>
+                    No Orders Yet 📦
+                </h2>
+
+
+                <a
+                    href="/products"
+                    class="btn"
+                >
+                    Start Shopping 🛍️
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</body>
+
+</html>

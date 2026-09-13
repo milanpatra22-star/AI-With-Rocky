@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Order Successful</title>
+
+</head>
+
+<body>
+
+    <h1>
+        Order Placed Successfully! 🎉
+    </h1>
+
+
+    <h2>
+        Order ID:
+        {{ order.id }}
+    </h2>
+
+
+    <h2>
+        Thank you,
+        {{ order.name }}!
+    </h2>
+
+
+    <p>
+        Email:
+        {{ order.email }}
+    </p>
+
+
+    <p>
+        Address:
+        {{ order.address }}
+    </p>
+
+
+    <hr>
+
+
+    <h2>
+        Order Details
+    </h2>
+
+
+    {% for product in order.products %}
+
+        <p>
+            {{ product.name }}
+            × {{ product.quantity }}
+            = ₹{{ product.subtotal }}
+        </p>
+
+    {% endfor %}
+
+
+    <h2>
+        Total:
+        ₹{{ order.total }}
+    </h2>
+
+
+    <br>
+
+
+    <a href="/my-orders">
+
+        <button>
+            📦 Track My Orders
+        </button>
+
+    </a>
+
+
+    <br><br>
+
+
+    <a href="/products">
+        Continue Shopping 🛍️
+    </a>
+
+
+</body>
+
+</html>

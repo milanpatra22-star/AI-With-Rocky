@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        AI With Rocky - Home
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+
+    <a
+        href="/"
+        class="logo"
+    >
+        AI With Rocky 🚀
+    </a>
+
+
+    <div class="nav-links">
+
+
+        <a href="/">
+            Home
+        </a>
+
+
+        <a href="/products">
+            Products 🛍️
+        </a>
+
+
+        <a href="/cart">
+            Cart 🛒
+        </a>
+
+
+        {% if session.get("customer_id") %}
+
+
+            <a href="/my-orders">
+                My Orders 📦
+            </a>
+
+
+            <a href="/logout">
+                Logout 🔓
+            </a>
+
+
+        {% else %}
+
+
+            <a href="/login">
+                Login 🔐
+            </a>
+
+
+            <a href="/register">
+                Register 👤
+            </a>
+
+
+        {% endif %}
+
+
+        <a href="/about">
+            About
+        </a>
+
+
+        <a href="/contact">
+            Contact
+        </a>
+
+
+    </div>
+
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<main class="container">
+
+
+    <section class="hero">
+
+
+        <h1>
+            Welcome to AI With Rocky 🚀
+        </h1>
+
+
+        <p>
+            Discover amazing products
+            at great prices.
+        </p>
+
+
+        <p>
+            Milan Patra.
+        </p>
+
+
+        <br>
+
+
+        <a
+            href="/products"
+            class="btn"
+        >
+            Shop Now 🛍️
+        </a>
+
+
+    </section>
+
+
+    <!-- =========================
+         FEATURED PRODUCTS
+    ========================= -->
+
+
+    <section>
+
+
+        <h1>
+            🔥 Featured Products
+        </h1>
+
+
+        {% if featured_products %}
+
+
+            <div class="product-grid">
+
+
+                {% for product in featured_products %}
+
+
+                    <div class="product-card">
+
+
+                        {% if product[4] %}
+
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='uploads/' + product[4]
+                                ) }}"
+                                class="product-image"
+                            >
+
+
+                        {% else %}
+
+
+                            <div
+                                class="product-image"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:60px;
+                                "
+                            >
+
+                                🛍️
+
+                            </div>
+
+
+                        {% endif %}
+
+
+                        <h2>
+
+                            <a
+                                href="/product/{{ product[0] }}"
+                            >
+
+                                {{ product[1] }}
+
+                            </a>
+
+                        </h2>
+
+
+                        <p class="price">
+
+                            ₹{{ product[2] }}
+
+                        </p>
+
+
+                        <p class="description">
+
+                            {{ product[3] }}
+
+                        </p>
+
+
+                        {% if product[6] > 0 %}
+
+
+                            <a
+                                href="/add-to-cart/{{ product[0] }}"
+                                class="btn"
+                            >
+
+                                Add to Cart 🛒
+
+                            </a>
+
+
+                        {% else %}
+
+
+                            <p>
+
+                                <strong>
+                                    Out of Stock ❌
+                                </strong>
+
+                            </p>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <p>
+                No products available.
+            </p>
+
+
+        {% endif %}
+
+
+        <br>
+
+
+        <div style="text-align:center;">
+
+            <a
+                href="/products"
+                class="btn"
+            >
+                View All Products →
+            </a>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+
+    <section style="margin-top:60px;">
+
+
+        <h1>
+            🏷️ Shop by Category
+        </h1>
+
+
+        {% if categories %}
+
+
+            <div class="product-grid">
+
+
+                {% for category in categories %}
+
+
+                    <div class="product-card">
+
+
+                        <h2>
+                            🏷️ {{ category }}
+                        </h2>
+
+
+                        <p>
+                            Explore products
+                            in this category.
+                        </p>
+
+
+                        <a
+                            href="/products?category={{ category }}"
+                            class="btn"
+                        >
+                            Explore →
+                        </a>
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <p>
+                No categories available.
+            </p>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+    <!-- =========================
+         FINAL CTA
+    ========================= -->
+
+
+    <section
+        class="hero"
+        style="margin-top:60px;"
+    >
+
+
+        <h1>
+            Ready to Shop? 🚀
+        </h1>
+
+
+        <p>
+            Find your favourite products
+            today.
+        </p>
+
+
+        <br>
+
+
+        <a
+            href="/products"
+            class="btn"
+        >
+            Start Shopping 🛍️
+        </a>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+
+    <p>
+        © 2026 AI With Rocky.
+        All Rights Reserved.
+    </p>
+
+
+</footer>
+
+
+</body>
+
+</html>

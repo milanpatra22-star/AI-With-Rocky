@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Admin Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+<nav class="navbar">
+
+
+    <a
+        href="/admin/dashboard"
+        class="logo"
+    >
+        Admin Panel 🛠️
+    </a>
+
+
+    <div class="nav-links">
+
+
+        <a href="/admin/dashboard">
+            Dashboard 📊
+        </a>
+
+
+        <a href="/admin/products">
+            Products 🛍️
+        </a>
+
+
+        <a href="/admin/orders">
+            Orders 📦
+        </a>
+
+
+        <a href="/admin/reviews">
+            Reviews ⭐
+        </a>
+
+
+        <a href="/admin/logout">
+            Logout 🔓
+        </a>
+
+
+    </div>
+
+
+</nav>
+
+
+<main class="container">
+
+
+    <h1>
+        Admin Dashboard 📊
+    </h1>
+
+
+    <p>
+        Welcome Admin 👋
+    </p>
+
+
+    <hr>
+
+
+    <h2>
+        Business Overview
+    </h2>
+
+
+    <div class="product-grid">
+
+
+        <div class="product-card">
+
+            <h2>
+                📦 Total Products
+            </h2>
+
+            <h1>
+                {{ stats.total_products }}
+            </h1>
+
+        </div>
+
+
+        <div class="product-card">
+
+            <h2>
+                👤 Total Customers
+            </h2>
+
+            <h1>
+                {{ stats.total_customers }}
+            </h1>
+
+        </div>
+
+
+        <div class="product-card">
+
+            <h2>
+                🛒 Total Orders
+            </h2>
+
+            <h1>
+                {{ stats.total_orders }}
+            </h1>
+
+        </div>
+
+
+        <div class="product-card">
+
+            <h2>
+                💰 Total Sales
+            </h2>
+
+            <h1>
+                ₹{{ stats.total_sales }}
+            </h1>
+
+        </div>
+
+
+    </div>
+
+
+    <hr>
+
+
+    <h2>
+        Recent Orders 📦
+    </h2>
+
+
+    {% if recent_orders %}
+
+
+        <div class="product-grid">
+
+
+            {% for order in recent_orders %}
+
+
+                <div class="order-card">
+
+
+                    <h3>
+                        Order #{{ order[0] }}
+                    </h3>
+
+
+                    <p>
+                        Customer:
+                        {{ order[1] }}
+                    </p>
+
+
+                    <p>
+                        Email:
+                        {{ order[2] }}
+                    </p>
+
+
+                    <p>
+                        Total:
+                        ₹{{ order[3] }}
+                    </p>
+
+
+                    <p>
+
+                        Status:
+
+
+                        {% if order[4] == "Pending" %}
+
+                            🟡 Pending
+
+                        {% elif order[4] == "Confirmed" %}
+
+                            🔵 Confirmed
+
+                        {% elif order[4] == "Shipped" %}
+
+                            🚚 Shipped
+
+                        {% elif order[4] == "Delivered" %}
+
+                            ✅ Delivered
+
+                        {% elif order[4] == "Cancelled" %}
+
+                            ❌ Cancelled
+
+                        {% endif %}
+
+                    </p>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <p>
+            No orders yet.
+        </p>
+
+
+    {% endif %}
+
+
+    <br>
+
+
+    <a
+        href="/admin/orders"
+        class="btn"
+    >
+        View All Orders →
+    </a>
+
+
+    <a
+        href="/admin/reviews"
+        class="btn"
+    >
+        Manage Reviews ⭐
+    </a>
+
+
+</main>
+
+
+<footer class="footer">
+
+    <p>
+        © 2026 AI With Rocky.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

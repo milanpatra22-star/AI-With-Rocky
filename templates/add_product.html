@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Products</title>
+
+</head>
+
+<body>
+
+    <h1>
+        Product Management 🛍️
+    </h1>
+
+
+    <a href="/admin/dashboard">
+        Dashboard 📊
+    </a>
+
+    <a href="/admin/products">
+        Products 🛍️
+    </a>
+
+    <a href="/admin/orders">
+        Orders 📦
+    </a>
+
+    <a href="/admin/logout">
+        Logout 🔓
+    </a>
+
+
+    <hr>
+
+
+    <a href="/admin/products/add">
+
+        <button>
+            ➕ Add New Product
+        </button>
+
+    </a>
+
+
+    <hr>
+
+
+    {% if products %}
+
+        <table
+            border="1"
+            cellpadding="10"
+        >
+
+            <tr>
+
+                <th>
+                    ID
+                </th>
+
+                <th>
+                    Product Name
+                </th>
+
+                <th>
+                    Price
+                </th>
+
+                <th>
+                    Description
+                </th>
+
+                <th>
+                    Category
+                </th>
+
+                <th>
+                    Stock
+                </th>
+
+                <th>
+                    Actions
+                </th>
+
+            </tr>
+
+
+            {% for product in products %}
+
+                <tr>
+
+                    <td>
+                        {{ product[0] }}
+                    </td>
+
+                    <td>
+                        {{ product[1] }}
+                    </td>
+
+                    <td>
+                        ₹{{ product[2] }}
+                    </td>
+
+                    <td>
+                        {{ product[3] }}
+                    </td>
+
+                    <td>
+                        {{ product[5] }}
+                    </td>
+
+                    <td>
+                        {{ product[6] }}
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/admin/products/edit/{{ product[0] }}"
+                        >
+
+                            <button>
+                                Edit ✏️
+                            </button>
+
+                        </a>
+
+
+                        <a
+                            href="/admin/products/delete/{{ product[0] }}"
+                        >
+
+                            <button>
+                                Delete ❌
+                            </button>
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+    {% else %}
+
+        <p>
+            No products found.
+        </p>
+
+    {% endif %}
+
+
+</body>
+
+</html>

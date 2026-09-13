@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Edit Product</title>
+
+</head>
+
+<body>
+
+    <h1>Edit Product ✏️</h1>
+
+
+    {% if product[4] %}
+
+        <p>
+            Current Image:
+        </p>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='uploads/' + product[4]
+            ) }}"
+            width="200"
+        >
+
+        <br><br>
+
+    {% endif %}
+
+
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <label>
+            Product Name:
+        </label>
+
+        <br>
+
+        <input
+            type="text"
+            name="name"
+            value="{{ product[1] }}"
+            required
+        >
+
+        <br><br>
+
+
+        <label>
+            Price:
+        </label>
+
+        <br>
+
+        <input
+            type="number"
+            name="price"
+            value="{{ product[2] }}"
+            step="0.01"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+
+        <label>
+            Category:
+        </label>
+
+        <br>
+
+        <select
+            name="category"
+            required
+        >
+
+            <option value="Electronics"
+                {% if product[5] == "Electronics" %}
+                    selected
+                {% endif %}
+            >
+                Electronics
+            </option>
+
+            <option value="Clothing"
+                {% if product[5] == "Clothing" %}
+                    selected
+                {% endif %}
+            >
+                Clothing
+            </option>
+
+            <option value="Books"
+                {% if product[5] == "Books" %}
+                    selected
+                {% endif %}
+            >
+                Books
+            </option>
+
+            <option value="Food"
+                {% if product[5] == "Food" %}
+                    selected
+                {% endif %}
+            >
+                Food
+            </option>
+
+            <option value="Accessories"
+                {% if product[5] == "Accessories" %}
+                    selected
+                {% endif %}
+            >
+                Accessories
+            </option>
+
+            <option value="Other"
+                {% if product[5] == "Other" %}
+                    selected
+                {% endif %}
+            >
+                Other
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <label>
+            Stock Quantity:
+        </label>
+
+        <br>
+
+        <input
+            type="number"
+            name="stock"
+            value="{{ product[6] }}"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+
+        <label>
+            Description:
+        </label>
+
+        <br>
+
+        <textarea
+            name="description"
+            rows="5"
+            required
+        >{{ product[3] }}</textarea>
+
+        <br><br>
+
+
+        <label>
+            New Image:
+        </label>
+
+        <br>
+
+        <input
+            type="file"
+            name="image"
+            accept=".png,.jpg,.jpeg,.gif,.webp"
+        >
+
+        <br><br>
+
+
+        <button type="submit">
+
+            Update Product 🚀
+
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/admin/products">
+
+        ← Back to Products
+
+    </a>
+
+</body>
+
+</html>

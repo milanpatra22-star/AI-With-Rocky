@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        {{ product[1] }}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <a
+        href="/"
+        class="logo"
+    >
+        AI With Rocky 🚀
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/products">
+            Products
+        </a>
+
+        <a href="/wishlist">
+            ❤️ Wishlist
+        </a>
+
+        <a href="/cart">
+            🛒 Cart
+        </a>
+
+        {% if session.get("customer_id") %}
+
+            <a href="/my-orders">
+                My Orders
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="/login">
+                Login
+            </a>
+
+            <a href="/register">
+                Register
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     PRODUCT
+========================= -->
+
+<main class="container">
+
+
+    <div class="product-card">
+
+
+        {% if product[4] %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/' + product[4]) }}"
+                alt="{{ product[1] }}"
+                style="max-width: 300px;"
+            >
+
+        {% endif %}
+
+
+        <h1>
+            {{ product[1] }}
+        </h1>
+
+
+        <h2>
+            ₹{{ product[2] }}
+        </h2>
+
+
+        <p>
+            {{ product[3] }}
+        </p>
+
+
+        {% if product[5] %}
+
+            <p>
+
+                <strong>
+                    Category:
+                </strong>
+
+                {{ product[5] }}
+
+            </p>
+
+        {% endif %}
+
+
+        <p>
+
+            <strong>
+                Stock:
+            </strong>
+
+            {{ product[6] }}
+
+        </p>
+
+
+        {% if product[6] > 0 %}
+
+            <a
+                href="/add-to-cart/{{ product[0] }}"
+                class="btn"
+            >
+                🛒 Add to Cart
+            </a>
+
+        {% else %}
+
+            <p>
+                ❌ Out of Stock
+            </p>
+
+        {% endif %}
+
+
+        <!-- =========================
+             WISHLIST
+        ========================= -->
+
+        {% if session.get("customer_id") %}
+
+            {% if in_wishlist %}
+
+                <a
+                    href="/wishlist/remove/{{ product[0] }}"
+                    class="btn"
+                >
+                    💔 Remove from Wishlist
+                </a>
+
+            {% else %}
+
+                <a
+                    href="/wishlist/add/{{ product[0] }}"
+                    class="btn"
+                >
+                    ❤️ Add to Wishlist
+                </a>
+
+            {% endif %}
+
+        {% else %}
+
+            <a
+                href="/login"
+                class="btn"
+            >
+                ❤️ Login to Wishlist
+            </a>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =========================
+         RATING SUMMARY
+    ========================= -->
+
+    <div class="order-card">
+
+
+        <h2>
+            ⭐ Customer Rating
+        </h2>
+
+
+        <h1>
+            {{ rating_summary.average }}/5
+        </h1>
+
+
+        <p>
+            {{ rating_summary.count }}
+            review(s)
+        </p>
+
+
+        {% for rating in [5, 4, 3, 2, 1] %}
+
+            <p>
+
+                {{ rating }} ⭐
+
+                {{ rating_breakdown[rating] }}
+
+            </p>
+
+        {% endfor %}
+
+
+    </div>
+
+
+    <!-- =========================
+         WRITE REVIEW
+    ========================= -->
+
+    <div class="order-card">
+
+
+        <h2>
+            Write a Review ✍️
+        </h2>
+
+
+        {% if session.get("customer_id") %}
+
+
+            {% if user_review %}
+
+
+                <p>
+                    You already reviewed this product.
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Your Rating:
+                    </strong>
+
+
+                    {% for i in range(user_review[1]) %}
+
+                        ⭐
+
+                    {% endfor %}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Your Review:
+                    </strong>
+
+                    {{ user_review[2] }}
+
+                </p>
+
+
+            {% else %}
+
+
+                <form
+                    action="/product/{{ product[0] }}/review"
+                    method="POST"
+                >
+
+
+                    <label>
+                        Rating
+                    </label>
+
+
+                    <select
+                        name="rating"
+                        required
+                    >
+
+                        <option value="">
+                            Select Rating
+                        </option>
+
+                        <option value="5">
+                            ⭐⭐⭐⭐⭐ 5
+                        </option>
+
+                        <option value="4">
+                            ⭐⭐⭐⭐ 4
+                        </option>
+
+                        <option value="3">
+                            ⭐⭐⭐ 3
+                        </option>
+
+                        <option value="2">
+                            ⭐⭐ 2
+                        </option>
+
+                        <option value="1">
+                            ⭐ 1
+                        </option>
+
+                    </select>
+
+
+                    <br>
+                    <br>
+
+
+                    <textarea
+                        name="review"
+                        rows="5"
+                        maxlength="500"
+                        placeholder="Write your review..."
+                        required
+                    ></textarea>
+
+
+                    <br>
+                    <br>
+
+
+                    <button
+                        type="submit"
+                        class="btn"
+                    >
+                        Submit Review ⭐
+                    </button>
+
+
+                </form>
+
+
+            {% endif %}
+
+
+        {% else %}
+
+
+            <p>
+                Please login to write a review.
+            </p>
+
+
+            <a
+                href="/login"
+                class="btn"
+            >
+                Login
+            </a>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- =========================
+         CUSTOMER REVIEWS
+    ========================= -->
+
+    <div>
+
+
+        <h2>
+            Customer Reviews 💬
+        </h2>
+
+
+        {% if reviews %}
+
+
+            {% for review in reviews %}
+
+
+                <div class="order-card">
+
+
+                    <h3>
+                        {{ review[1] }}
+                    </h3>
+
+
+                    <p>
+
+                        {% for i in range(review[2]) %}
+
+                            ⭐
+
+                        {% endfor %}
+
+                    </p>
+
+
+                    <p>
+                        {{ review[3] }}
+                    </p>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <p>
+                No reviews yet.
+            </p>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 AI With Rocky.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

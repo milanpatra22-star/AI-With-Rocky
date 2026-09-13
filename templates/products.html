@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Products</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            AI With Rocky 🚀
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products 🛍️
+            </a>
+
+            <a href="/cart">
+                Cart 🛒
+            </a>
+
+
+            {% if session.get("customer_id") %}
+
+                <a href="/my-orders">
+                    My Orders 📦
+                </a>
+
+                <a href="/logout">
+                    Logout 🔓
+                </a>
+
+            {% else %}
+
+                <a href="/login">
+                    Login 🔐
+                </a>
+
+                <a href="/register">
+                    Register 👤
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+
+        <h1>
+            Our Products 🛍️
+        </h1>
+
+
+        <div class="search-box">
+
+            <form method="GET">
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search products..."
+                    value="{{ search }}"
+                >
+
+
+                <select name="category">
+
+                    <option value="">
+                        All Categories
+                    </option>
+
+
+                    {% for category in categories %}
+
+                        <option
+                            value="{{ category }}"
+                            {% if selected_category == category %}
+                                selected
+                            {% endif %}
+                        >
+
+                            {{ category }}
+
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Search 🔎
+                </button>
+
+            </form>
+
+        </div>
+
+
+        {% if products %}
+
+
+            <div class="product-grid">
+
+
+                {% for product in products %}
+
+
+                    <div class="product-card">
+
+
+                        {% if product[4] %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename='uploads/' + product[4]
+                                ) }}"
+                                class="product-image"
+                            >
+
+                        {% else %}
+
+                            <div
+                                class="product-image"
+                                style="
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:50px;
+                                "
+                            >
+                                🛍️
+                            </div>
+
+                        {% endif %}
+
+
+                        <h2>
+
+                            <a
+                                href="/product/{{ product[0] }}"
+                            >
+                                {{ product[1] }}
+                            </a>
+
+                        </h2>
+
+
+                        <p class="price">
+
+                            ₹{{ product[2] }}
+
+                        </p>
+
+
+                        <p class="description">
+
+                            {{ product[3] }}
+
+                        </p>
+
+
+                        <p>
+
+                            Category:
+                            <strong>
+                                {{ product[5] }}
+                            </strong>
+
+                        </p>
+
+
+                        {% if product[6] > 0 %}
+
+                            <p>
+                                Stock:
+                                {{ product[6] }}
+                            </p>
+
+
+                            <a
+                                href="/add-to-cart/{{ product[0] }}"
+                                class="btn"
+                            >
+                                Add to Cart 🛒
+                            </a>
+
+                        {% else %}
+
+                            <p>
+                                <strong>
+                                    Out of Stock ❌
+                                </strong>
+                            </p>
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+            <div class="alert">
+
+                No products found 🔎
+
+            </div>
+
+        {% endif %}
+
+
+    </main>
+
+
+    <footer class="footer">
+
+        <p>
+            © 2026 AI With Rocky.
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

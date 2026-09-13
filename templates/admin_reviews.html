@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Admin Reviews
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+
+    <a
+        href="/admin/dashboard"
+        class="logo"
+    >
+        Admin Panel 🛠️
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="/admin/dashboard">
+            Dashboard 📊
+        </a>
+
+        <a href="/admin/products">
+            Products 🛍️
+        </a>
+
+        <a href="/admin/orders">
+            Orders 📦
+        </a>
+
+        <a href="/admin/reviews">
+            Reviews ⭐
+        </a>
+
+        <a href="/admin/logout">
+            Logout 🔓
+        </a>
+
+    </div>
+
+
+</nav>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <h1>
+        Customer Reviews ⭐
+    </h1>
+
+
+    {% if reviews %}
+
+
+        {% for review in reviews %}
+
+
+            <div class="order-card">
+
+
+                <h2>
+
+                    {{ review[1] }}
+
+                </h2>
+
+
+                <p>
+
+                    <strong>
+                        Customer:
+                    </strong>
+
+                    {{ review[2] }}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Email:
+                    </strong>
+
+                    {{ review[3] }}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Rating:
+                    </strong>
+
+
+                    {% for i in range(review[4]) %}
+
+                        ⭐
+
+                    {% endfor %}
+
+
+                    <strong>
+                        ({{ review[4] }}/5)
+                    </strong>
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Review:
+                    </strong>
+
+                </p>
+
+
+                <p>
+
+                    {{ review[5] }}
+
+                </p>
+
+
+                <br>
+
+
+                <a
+                    href="/admin/reviews/delete/{{ review[0] }}"
+                    class="btn btn-danger"
+                    onclick="
+                        return confirm(
+                            'Delete this review?'
+                        );
+                    "
+                >
+
+                    Delete Review ❌
+
+                </a>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <div class="hero">
+
+            <h2>
+                No reviews yet ⭐
+            </h2>
+
+            <p>
+                Customer reviews will appear here.
+            </p>
+
+        </div>
+
+
+    {% endif %}
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 AI With Rocky.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

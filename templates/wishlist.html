@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        My Wishlist ❤️
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <a
+        href="/"
+        class="logo"
+    >
+        AI With Rocky 🚀
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/products">
+            Products
+        </a>
+
+        <a href="/wishlist">
+            ❤️ Wishlist
+        </a>
+
+        <a href="/cart">
+            🛒 Cart
+        </a>
+
+
+        {% if session.get("customer_id") %}
+
+            <a href="/my-orders">
+                My Orders
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        {% else %}
+
+            <a href="/login">
+                Login
+            </a>
+
+            <a href="/register">
+                Register
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <h1>
+        My Wishlist ❤️
+    </h1>
+
+
+    {% if products %}
+
+
+        <div class="product-grid">
+
+
+            {% for product in products %}
+
+
+                <div class="product-card">
+
+
+                    {% if product[4] %}
+
+                        <img
+                            src="{{ url_for('static', filename='uploads/' + product[4]) }}"
+                            alt="{{ product[1] }}"
+                            style="max-width: 250px;"
+                        >
+
+                    {% endif %}
+
+
+                    <h2>
+                        {{ product[1] }}
+                    </h2>
+
+
+                    <h3>
+                        ₹{{ product[2] }}
+                    </h3>
+
+
+                    <p>
+                        {{ product[3] }}
+                    </p>
+
+
+                    {% if product[5] %}
+
+                        <p>
+
+                            <strong>
+                                Category:
+                            </strong>
+
+                            {{ product[5] }}
+
+                        </p>
+
+                    {% endif %}
+
+
+                    {% if product[6] > 0 %}
+
+                        <a
+                            href="/add-to-cart/{{ product[0] }}"
+                            class="btn"
+                        >
+                            🛒 Add to Cart
+                        </a>
+
+                    {% else %}
+
+                        <p>
+                            ❌ Out of Stock
+                        </p>
+
+                    {% endif %}
+
+
+                    <a
+                        href="/product/{{ product[0] }}"
+                        class="btn"
+                    >
+                        👁️ View Product
+                    </a>
+
+
+                    <a
+                        href="/wishlist/remove/{{ product[0] }}"
+                        class="btn"
+                    >
+                        ❌ Remove
+                    </a>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="hero">
+
+
+            <h2>
+                Your Wishlist is Empty 💔
+            </h2>
+
+
+            <p>
+                Save your favorite products here.
+            </p>
+
+
+            <a
+                href="/products"
+                class="btn"
+            >
+                🛍️ Browse Products
+            </a>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <p>
+        © 2026 AI With Rocky.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

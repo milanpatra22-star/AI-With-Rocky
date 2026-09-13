@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>My Cart</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+
+    <nav class="navbar">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            AI With Rocky 🚀
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/products">
+                Products 🛍️
+            </a>
+
+            <a href="/cart">
+                Cart 🛒
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="container">
+
+
+        <h1>
+            My Shopping Cart 🛒
+        </h1>
+
+
+        {% if cart_products %}
+
+
+            {% for product in cart_products %}
+
+
+                <div class="cart-item">
+
+
+                    <h2>
+                        {{ product.name }}
+                    </h2>
+
+
+                    <p class="price">
+                        ₹{{ product.price }}
+                    </p>
+
+
+                    <div class="quantity-controls">
+
+
+                        <a
+                            href="/decrease/{{ product.id }}"
+                            class="quantity-btn"
+                        >
+                            -
+                        </a>
+
+
+                        <strong>
+                            {{ product.quantity }}
+                        </strong>
+
+
+                        <a
+                            href="/increase/{{ product.id }}"
+                            class="quantity-btn"
+                        >
+                            +
+                        </a>
+
+
+                    </div>
+
+
+                    <p>
+
+                        Subtotal:
+
+                        <strong>
+                            ₹{{ product.subtotal }}
+                        </strong>
+
+                    </p>
+
+
+                    <a
+                        href="/remove/{{ product.id }}"
+                        class="btn btn-danger"
+                    >
+                        Remove ❌
+                    </a>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+            <div class="cart-summary">
+
+
+                <h2>
+                    Total Items:
+                    {{ cart_count }}
+                </h2>
+
+
+                <h2>
+                    Total:
+                    ₹{{ total }}
+                </h2>
+
+
+                <a
+                    href="/checkout"
+                    class="btn btn-success"
+                >
+                    Proceed to Checkout →
+                </a>
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="hero">
+
+                <h2>
+                    Your cart is empty 🛒
+                </h2>
+
+
+                <a
+                    href="/products"
+                    class="btn"
+                >
+                    Start Shopping 🛍️
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</body>
+
+</html>
