@@ -951,15 +951,6 @@ def cart():
 )
 def checkout():
 
-    if not session.get(
-        "customer_id"
-    ):
-
-        return redirect(
-            url_for("customer_login")
-        )
-
-
     cart = session.get(
         "cart",
         {}
@@ -1038,18 +1029,37 @@ def checkout():
 
     if request.method == "POST":
 
-        name = session[
-            "customer_name"
-        ]
+        name = request.form.get(
+            "name",
+            ""
+        ).strip()
 
-        email = session[
-            "customer_email"
-        ]
+        phone = request.form.get(
+            "phone",
+            ""
+        ).strip()
 
-        address = request.form[
-            "address"
-        ]
+        email = request.form.get(
+            "email",
+            ""
+        ).strip().lower()
 
+        address = request.form.get(
+            "address",
+            ""
+        ).strip()
+
+        if not name:
+            return "Name is required", 400
+
+        if not phone:
+            return "Phone number is required", 400
+
+        if not address:
+            return "Delivery address is required", 400
+
+        if not email and session.get("customer_email"):
+            email = session["customer_email"]
 
         for product_id, quantity in cart.items():
 
@@ -1069,6 +1079,7 @@ def checkout():
 
         order_id = save_order(
             name,
+            phone,
             email,
             address,
             total
@@ -1080,6 +1091,8 @@ def checkout():
             "id": order_id,
 
             "name": name,
+
+            "phone": phone,
 
             "email": email,
 
@@ -1117,15 +1130,6 @@ def checkout():
 
 @app.route("/order-success")
 def order_success():
-
-    if not session.get(
-        "customer_id"
-    ):
-
-        return redirect(
-            url_for("customer_login")
-        )
-
 
     order = session.get(
         "order"

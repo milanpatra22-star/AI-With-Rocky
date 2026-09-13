@@ -35,7 +35,8 @@ def create_database():
             email TEXT NOT NULL,
             address TEXT NOT NULL,
             total REAL NOT NULL,
-            status TEXT DEFAULT 'Pending'
+            status TEXT DEFAULT 'Pending',
+            phone TEXT DEFAULT ''
         )
     """)
 
@@ -142,6 +143,13 @@ def create_database():
         cursor.execute("""
             ALTER TABLE orders
             ADD COLUMN status TEXT DEFAULT 'Pending'
+        """)
+
+    if "phone" not in order_column_names:
+
+        cursor.execute("""
+            ALTER TABLE orders
+            ADD COLUMN phone TEXT DEFAULT ''
         """)
 
 
@@ -265,7 +273,8 @@ def get_recent_orders(limit=5):
             name,
             email,
             total,
-            status
+            status,
+            phone
         FROM orders
         ORDER BY id DESC
         LIMIT ?
@@ -348,7 +357,7 @@ def get_user_by_email(email):
 # ORDERS
 # ==================================================
 
-def save_order(name, email, address, total):
+def save_order(name, phone, email, address, total):
 
     connection = sqlite3.connect(DATABASE_NAME)
     cursor = connection.cursor()
@@ -356,14 +365,15 @@ def save_order(name, email, address, total):
 
     cursor.execute("""
         INSERT INTO orders
-        (name, email, address, total, status)
-        VALUES (?, ?, ?, ?, ?)
+        (name, email, address, total, status, phone)
+        VALUES (?, ?, ?, ?, ?, ?)
     """, (
         name,
         email,
         address,
         total,
-        "Pending"
+        "Pending",
+        phone
     ))
 
 
@@ -389,7 +399,8 @@ def get_all_orders():
             email,
             address,
             total,
-            status
+            status,
+            phone
         FROM orders
         ORDER BY id DESC
     """)
@@ -416,7 +427,8 @@ def get_orders_by_email(email):
             email,
             address,
             total,
-            status
+            status,
+            phone
         FROM orders
         WHERE email = ?
         ORDER BY id DESC
@@ -444,7 +456,8 @@ def get_order(order_id):
             email,
             address,
             total,
-            status
+            status,
+            phone
         FROM orders
         WHERE id = ?
     """, (order_id,))
